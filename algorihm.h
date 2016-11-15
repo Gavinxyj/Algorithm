@@ -1,3 +1,6 @@
+#ifndef _ALGORIHM_
+#define _ALGORIHM_
+
 template<class T>
 class Algorihm
 {
@@ -5,5 +8,7 @@ public:
 	Algorihm();
 	~Algorihm();
 public:
-	void fun(const T[], T &target);
+	void bubbleSort(T *array, size_t nLen);
 };
+
+#endif
