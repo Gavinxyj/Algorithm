@@ -15,7 +15,7 @@ Algorithm<T>::~Algorithm()
 }
 
 template<class T>
-void Algorithm<T>::bubbleSort(T *array, std::size_t nLen, int (*fCompare)(const T *, const T *))
+void Algorithm<T>::bubbleSort(T *array, int nLen, int (*fCompare)(const T *, const T *))
 {
 		if(0 == *array || 0 == nLen) return;
 		
@@ -39,7 +39,7 @@ void Algorithm<T>::bubbleSort(T *array, std::size_t nLen, int (*fCompare)(const 
 }
 
 template<class T>
-void Algorithm<T>::selectionSort(T *array, std::size_t length, int (*fCompare)(const T *, const T *))
+void Algorithm<T>::selectionSort(T *array, int length, int (*fCompare)(const T *, const T *))
 {
 		if(0 == *array || 0 == length) return;
 		
@@ -65,7 +65,7 @@ void Algorithm<T>::selectionSort(T *array, std::size_t length, int (*fCompare)(c
 }
 
 template<class T>
-void Algorithm<T>::quickSort(T *array, std::size_t nLow, std::size_t nHigh, int (*fCompare)(const T *, const T *))
+void Algorithm<T>::quickSort(T *array, int nLow, int nHigh, int (*fCompare)(const T *, const T *))
 {
 		if(0 == *array || nLow >= nHigh) return ;
 		
@@ -97,7 +97,7 @@ void Algorithm<T>::quickSort(T *array, std::size_t nLow, std::size_t nHigh, int 
 }
 
 template<class T>
-void Algorithm<T>::insertSort(T *array, std::size_t nLength, int (*fCompare)(const T*, const T*))
+void Algorithm<T>::insertSort(T *array, int nLength, int (*fCompare)(const T*, const T*))
 {
 		if(0 == *array || nLength <= 0) return;
 			
@@ -119,7 +119,7 @@ void Algorithm<T>::insertSort(T *array, std::size_t nLength, int (*fCompare)(con
 }
 
 template<class T>
-void Algorithm<T>::binaryInsertSort(T *array, std::size_t nLength, int (*fCompare)(const T*, const T*))
+void Algorithm<T>::binaryInsertSort(T *array, int nLength, int (*fCompare)(const T*, const T*))
 {
 	 if(0 == *array || nLength <= 0) return;
 	 	
@@ -151,4 +151,80 @@ void Algorithm<T>::binaryInsertSort(T *array, std::size_t nLength, int (*fCompar
 	 		}
 	 		array[nLow] = temp;	
 	 }
+}
+
+template<class T>
+void Algorithm<T>::shellSort(T *array, int nLength, int (*fCompare)(const T*, const T*))
+{
+	 if(0 == *array || nLength <= 0) return;
+		
+	 for(int nLoop = nLength / 2; nLoop >= 1; nLoop /= 2)
+	 {
+	 		//对增量为nLoop的数据元素进行排序
+	 		for(int index = nLoop; index < nLength; index ++)
+	 		{
+	 			 for(int nSwapIndex = index - nLoop; nSwapIndex >= 0; nSwapIndex -= nLoop)
+	 			 {	 			 	  
+	 			 		if(fCompare(&array[nSwapIndex], &array[index]) > 0)
+	 			 		{ 
+	 			 			 T temp = array[nSwapIndex];		 			
+	 			 			 array[nSwapIndex] = array[index];
+	 			 			 array[index]			 = temp;
+	 			 		}
+	 			 }	
+	 		}	
+	 }	
+}
+
+template<class T>
+void Algorithm<T>::mergeSort(T *array, T *tempArray, int nFirst, int nLast, int (*fCompare)(const T*, const T*))
+{
+		if(0 == *array || (nFirst - nLast) > 0 || nFirst < 0 || nLast < 0 ) return;
+		
+		
+		int nMidIndex = 0;
+		
+		if(nFirst < nLast)
+		{
+			  nMidIndex = (nFirst + nLast) / 2;
+			 
+				mergeSort(array, tempArray, nFirst, nMidIndex, fCompare);//对分解后的左边序列进行排序
+				mergeSort(array, tempArray, nMidIndex + 1, nLast, fCompare);//对分解后的右边序列进行排序
+				merge(array, tempArray, nFirst, nMidIndex, nLast, fCompare);//合并序列
+		}
+}
+
+template<class T>
+void Algorithm<T>::merge(T *array, T *tempArray, int nFirst, int nMid,  int nLast, int (*fCompare)(const T*, const T*))
+{
+		int nStartIndex = nFirst;
+		int nMidIndex   = nMid + 1;
+		int index 			= nFirst;
+		
+		while(nStartIndex != nMid + 1 && nMidIndex != nLast + 1)
+		{
+			if(fCompare(&array[nStartIndex], &array[nMidIndex]) > 0)
+			{
+				tempArray[index ++] = array[nMidIndex ++];	
+			}
+			else
+			{
+				tempArray[index ++] = array[nStartIndex ++];	
+			}
+		}
+		
+		while(nStartIndex != nMid + 1)
+		{
+			tempArray[index ++] = array[nStartIndex ++];	
+		}
+		
+		while(nMidIndex != nLast + 1)
+		{
+			tempArray[index ++] = array[nMidIndex ++];	
+		}
+		
+		for(nStartIndex = nFirst; nStartIndex <= nLast; nStartIndex ++)
+		{
+			array[nStartIndex] = tempArray[nStartIndex];	
+		}
 }

@@ -8,15 +8,21 @@ public:
 	Algorithm();
 	~Algorithm();
 public:
-	void bubbleSort(T *array, std::size_t nLen, int (*fCompare)(const T *, const T *));
+	void bubbleSort(T *array, int nLen, int (*fCompare)(const T *, const T *));
 	
-	void selectionSort(T *array, std::size_t length, int (*fCompare)(const T *, const T *));
+	void selectionSort(T *array, int length, int (*fCompare)(const T *, const T *));
 		
-	void quickSort(T *array, std::size_t nFirst, std::size_t nLast, int (*fCompare)(const T *, const T *));
+	void quickSort(T *array, int nFirst, int nLast, int (*fCompare)(const T *, const T *));
 	
-	void insertSort(T *array, std::size_t nLength, int (*fCompare)(const T*, const T*));
+	void insertSort(T *array, int nLength, int (*fCompare)(const T*, const T*));
 
-	void binaryInsertSort(T *array, std::size_t nLength, int (*fCompare)(const T*, const T*));
+	void binaryInsertSort(T *array, int nLength, int (*fCompare)(const T*, const T*));
+	
+	void shellSort(T *array, int nLength, int (*fCompare)(const T*, const T*));
+		
+	void mergeSort(T *array, T *tempArray, int nFirst, int nLast, int (*fCompare)(const T*, const T*));
+	
+	void merge(T *array, T *tempArray, int nFirst, int nMid,  int nLast, int (*fCompare)(const T*, const T*));
 		
 };
 
