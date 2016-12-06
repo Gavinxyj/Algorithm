@@ -1,4 +1,6 @@
 #include<iostream>
+#include<deque>
+#include<math.h>
 #include "algorithm.h"
 
 
@@ -227,4 +229,55 @@ void Algorithm<T>::merge(T *array, T *tempArray, int nFirst, int nMid,  int nLas
 		{
 			array[nStartIndex] = tempArray[nStartIndex];	
 		}
+}
+
+template<class T>
+void Algorithm<T>::radixSort(T *array, int nLength)
+{
+	if(0 == *array) return ;
+	
+	//先找出待排序中的最大元素来确定需要多少次排序
+	T max = 0;	
+	for(int nLoop = 0; nLoop < nLength; nLoop ++)
+	{
+		if(array[nLoop] > max)
+		{
+			max = array[nLoop];	
+		}
+	}	
+	
+	//获取最大值的位数
+	int count = 0;
+	while(true)
+	{
+		if(max == 0) break;
+			
+		max /= 10;
+		count ++;
+	}
+	
+	//创建10个桶分别来存放各个数字,因为没个数都是0-9组成的
+	std::deque<T> tempDeque[10];
+	
+	for(int nLoop = 0; nLoop < count; nLoop ++)
+	{
+		for(int index = 0; index < nLength; index ++)
+		{
+			//将位数分别放到对应的桶中
+			int nIndex = (array[index] / (int)pow(10, nLoop)) % 10;
+			tempDeque[nIndex].push_back(array[index]);
+		}
+		//把此趟排好序的数据放回到原来数组中
+		int nCount = 0;
+		for(int index = 0; index < 10; index ++)
+		{
+			while(!tempDeque[index].empty())
+			{
+				array[nCount ++] = tempDeque[index].front();
+				tempDeque[index].pop_front();
+			}
+		}
+	}
+	
+	
 }

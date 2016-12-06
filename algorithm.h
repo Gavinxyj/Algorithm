@@ -23,6 +23,8 @@ public:
 	void mergeSort(T *array, T *tempArray, int nFirst, int nLast, int (*fCompare)(const T*, const T*));
 	
 	void merge(T *array, T *tempArray, int nFirst, int nMid,  int nLast, int (*fCompare)(const T*, const T*));
+	
+	void radixSort(T *array, int nLength);
 		
 };
 
