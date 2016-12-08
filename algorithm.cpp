@@ -278,6 +278,68 @@ void Algorithm<T>::radixSort(T *array, int nLength)
 			}
 		}
 	}
+}
+
+template<class T>
+void Algorithm<T>::heapSort(T *array, int nLength, int (*fCompare)(const T*, const T*))
+{
+	for(int nLoop = (nLength - 1) / 2 ; nLoop >= 0; nLoop --)
+	{
+		//从子树开始整理
+		adjustHeap(array, nLength - 1, nLoop, fCompare);	
+		for(int nLoop = 0; nLoop < nLength; nLoop ++)
+	{
+		std::cout<< array[nLoop] << "  ";
+	}
+	
+	std::cout << "\n";
+	}
 	
 	
+	while(nLength > 0)
+	{
+		swap(array[nLength - 1], array[0]);		
+		nLength --;
+		adjustHeap(array, nLength, 0, fCompare);	
+	}
+}
+
+template<class T>
+void Algorithm<T>::adjustHeap(T *array, int nLength, T element, int (*fCompare)(const T*, const T*))
+{
+	int lChild = element * 2 + 1;//左节点
+	int rChild = lChild + 1;//右节点
+	
+	while(rChild < nLength)
+	{
+		//如果父节点小于它的左右孩子节点则改节点不需要整理
+		if(fCompare(&array[element], &array[lChild]) < 0 && fCompare(&array[element], &array[rChild]) < 0) return;	
+		//比较左右子树确定哪个子树最小
+		if(fCompare(&array[lChild], &array[rChild]) <= 0)
+		{
+			swap(array[element], array[lChild]);
+			element = lChild;
+		}
+		else
+		{
+			swap(array[element], array[rChild]);
+			element = rChild;	
+		}
+		lChild = element * 2 + 1;
+		rChild = lChild + 1;
+	}
+	
+	//只有左子树并小于父节点
+	if(lChild < nLength && fCompare(&array[lChild], &array[element]) <= 0)
+	{
+		swap(array[lChild], array[element]);	
+	}
+}
+
+template<class T>
+void Algorithm<T>::swap(T &firstElement, T &secondElement)
+{
+	T temp        = firstElement;
+	firstElement  = secondElement;
+	secondElement = temp;	
 }

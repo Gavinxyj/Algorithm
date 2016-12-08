@@ -22,10 +22,16 @@ public:
 		
 	void mergeSort(T *array, T *tempArray, int nFirst, int nLast, int (*fCompare)(const T*, const T*));
 	
+	void radixSort(T *array, int nLength);
+	
+	void heapSort(T *array, int nLength, int (*fCompare)(const T*, const T*));
+	
+private:
 	void merge(T *array, T *tempArray, int nFirst, int nMid,  int nLast, int (*fCompare)(const T*, const T*));
 	
-	void radixSort(T *array, int nLength);
-		
+	void adjustHeap(T *array, int nLength, T element, int (*fCompare)(const T*, const T*));
+	
+	void swap(T &firstElement, T &secondElement);
 };
 
 #endif
