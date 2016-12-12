@@ -285,17 +285,16 @@ void Algorithm<T>::heapSort(T *array, int nLength, int (*fCompare)(const T*, con
 {
 	for(int nLoop = (nLength - 1) / 2 ; nLoop >= 0; nLoop --)
 	{
+		//只有左子树并小于父节点
+		int lChild = nLoop * 2 + 1;//左节点
+	  int rChild = lChild + 1;//右节点
+		if(lChild == nLength - 1 && fCompare(&array[lChild], &array[nLoop]) <= 0)
+		{
+			swap(array[lChild], array[nLoop]);	
+		}
 		//从子树开始整理
 		adjustHeap(array, nLength - 1, nLoop, fCompare);	
-		for(int nLoop = 0; nLoop < nLength; nLoop ++)
-	{
-		std::cout<< array[nLoop] << "  ";
 	}
-	
-	std::cout << "\n";
-	}
-	
-	
 	while(nLength > 0)
 	{
 		swap(array[nLength - 1], array[0]);		
@@ -327,12 +326,6 @@ void Algorithm<T>::adjustHeap(T *array, int nLength, T element, int (*fCompare)(
 		}
 		lChild = element * 2 + 1;
 		rChild = lChild + 1;
-	}
-	
-	//只有左子树并小于父节点
-	if(lChild < nLength && fCompare(&array[lChild], &array[element]) <= 0)
-	{
-		swap(array[lChild], array[element]);	
 	}
 }
 
